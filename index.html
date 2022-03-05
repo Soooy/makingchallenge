@@ -1,218 +1,148 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 
 <head>
+    <!-- Webpage Title -->
+    <title>모두의 책리뷰 | 스파르타코딩클럽</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Poor+Story&display=swap"
-          rel="stylesheet">
-    <title>당신은 엽기떡볶이를 먹게된다..(주문)</title>
 
-    <meta property="og:title" content="맛있게 즐겨요 동대문~" />
-    <meta property="og:description" content="달자맨의 엽떡판매페이지 구경하세요~" />
-    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
 
-    <style>
-        .yupdack {
-            width: 450px;
-            height: 580px;
+    <script type="text/javascript">
 
-            background-position: center;
-            background-size: cover;
-            margin: 10px;
-        }
-
-        .oderpage {
-            width: 700px;
-            margin: auto;
-        }
-
-        .description {
-            font-family: 'Black Han Sans', sans-serif;
-        }
-
-        .description span {
-            font-size: 15px;
-        }
-
-        .oderbtn {
-            width: 200px;
-
-            margin: 20px auto;
-
-        }
-
-        .oderpart {
-            width: 550px;
-            font-family: 'Poor Story', cursive;
-        }
-
-        .odertable {
-            width: 550px;
-            margin:auto;
-        }
-        .odertable th {
-            padding: 20px;
-            border-bottom: 3px solid #01090c;
-            white-space:nowrap;
-        }
-        .odertable td {
-            border-bottom: 1px solid #01090c;
-            white-space:nowrap;
-
-        }
-    </style>
-    <script>
         $(document).ready(function () {
-            showOrder();
+            showReview();
         });
 
-        function getOrder() {
-            let menu = $('#menu').val();
-            let sari = $('#sari').val();
-            let username = $('#username').val();
-            let where = $('#where').val();
-            let number = $('#number').val();
-
+        function makeReview() {
+            let title = $('#title').val()
+            let author = $('#author').val()
+            let review = $('#bookReview').val()
 
             $.ajax({
                 type: "POST",
-                url: "/order",
-                data: {
-                    menu_give: menu,
-                    sari_give: sari,
-                    username_give: username,
-                    where_give: where,
-                    number_give: number,
-                },
-                success: function (response) { // 성공하면
-                    if (response["result"] == "success") {
-                        alert(response["msg"]);
-                        window.location.reload()
-                    }
+                url: "/review",
+                data: {title_give: title, author_give: author, review_give: review},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
                 }
             })
         }
 
-        function showOrder() {
+        function showReview() {
+            <!-- 서버에서 DB로 부터 all_reviews 잘 받아오면 for문 돌면서 리뷰들을 붙여야함-->
             $.ajax({
                 type: "GET",
-                url: "/order",
+                url: "/review",
                 data: {},
                 success: function (response) {
-                    let orders = response['orders']
-                    for (let i = 0; i < orders.length; i++) {
-                        let menu = orders[i]['menu']
-                        let sari = orders[i]['sari']
-                        let username = orders[i]['username']
-                        let where = orders[i]['where']
-                        let number = orders[i]['number']
-                        let temp_html = `   <tr>
-                                            <td>${menu}</td>
-                                            <td>${sari}</td>
-                                            <td>${username}</td>
-                                            <td>${where}</td>
-                                            <td>${number}</td>
+                    let reviews = response['all_reviews']
+                    for (let i = 0; i < reviews.length; i++) {
+                        let title = reviews[i]['title']
+                        let author = reviews[i]['author']
+                        let review = reviews[i]['review']
+
+                        let temp_html = `<tr>
+                                            <td>${title}</td>
+                                            <td>${author}</td>
+                                            <td>${review}</td>
                                         </tr>`
-                        $('#orders').append(temp_html)
+                        $('#reviews-box').append(temp_html)
+
+
                     }
                 }
             })
         }
     </script>
+
+    <style type="text/css">
+        * {
+            font-family: "Do Hyeon", sans-serif;
+        }
+
+        h1,
+        h5 {
+            display: inline;
+        }
+
+        .info {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .review {
+            text-align: center;
+        }
+
+        .reviews {
+            margin-top: 100px;
+        }
+    </style>
 </head>
 
 <body>
-<div class="oderpage">
-    <div class="yupdack">
-        <img src="https://www.fntoday.co.kr/news/photo/201907/2_694896_590285_3944.png"/>
+<div class="container">
+    <img src="https://previews.123rf.com/images/maxxyustas/maxxyustas1511/maxxyustas151100002/47858355-education-concept-books-and-textbooks-on-the-bookshelf-3d.jpg"
+         class="img-fluid" alt="Responsive image">
+    <div class="info">
+        <h1>읽은 책에 대해 말씀해주세요.</h1>
+        <p>다른 사람을 위해 리뷰를 남겨주세요! 다 같이 좋은 책을 읽는다면 다 함께 행복해질 수 있지 않을까요?</p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">제목</span>
+            </div>
+            <input type="text" class="form-control" id="title">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">저자</span>
+            </div>
+            <input type="text" class="form-control" id="author">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">리뷰</span>
+            </div>
+            <textarea class="form-control" id="bookReview"
+                      cols="30"
+                      rows="5" placeholder="140자까지 입력할 수 있습니다."></textarea>
+        </div>
+        <div class="review">
+            <button onclick="makeReview()" type="button" class="btn btn-primary">리뷰 작성하기</button>
+        </div>
     </div>
-    <div class="description">
-        <h1>맛있는 매운맛 엽기닭볶음탕! <span>가격: 24000원 / 3인기준 </span></h1>
-        <p>당신이 몰랐던 엽기떡볶이의 숨겨진 메뉴! 이 맛을 모르는 사람이 정말 불쌍해!<br>
-            엽기닭볶음탕을 한번도 안 먹은 사람은 있지만, 한번만 먹어 본 사람은 없다는 전설의 메뉴!<br>
-            당신은 홀린듯이 당면사리 추가를 하게 될 것이다.(수리수리마수리 얍)<br></p>
-        <h1>주문하기</h1>
-        <p>주의!! 이 페이지는 전세계 사람들에게 공유됩니다 진짜주소&번호 쓰지마세요!!</p>
-    </div>
+    <div class="reviews">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">저자</th>
+                <th scope="col">리뷰</th>
+            </tr>
+            </thead>
+            <tbody id="reviews-box">
 
-    <div class="oderpart">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="menu">메뉴</label>
-            </div>
-            <select class="custom-select" id="menu">
-                <option selected>메뉴를 선택하세요...</option>
-                <option>엽기닭볶음탕</option>
-                <option>엽기떡볶이</option>
-                <option>엽기로제떡볶이</option>
-            </select>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="sari">사리</label>
-            </div>
-            <select class="custom-select" id="sari">
-                <option selected>사리를 추가하세요...</option>
-                <option>당면</option>
-                <option>우동</option>
-                <option>베이컨</option>
-            </select>
-        </div>
-        <div class="oderlist">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">주문자명</span>
-                <input id="username" type="text" class="form-control" placeholder="이름을 작성해주세요." aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <div class="oderlist">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">주소</span>
-                <input id="where" type="text" class="form-control" placeholder="받으실 주소를 작성해주세요." aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <div class="oderlist">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">전화번호</span>
-                <input id="number" type="text" class="form-control" placeholder="받으시는 분 번호를 작성해주세요."
-                       aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-    </div>
-    <div class="oderbtn">
-        <button class="btn btn-primary" type="submit" onclick="getOrder()">주문하기</button>
+            </tbody>
+        </table>
     </div>
 </div>
-<table class="odertable">
-    <thead>
-    <tr>
-        <th scope="col">메뉴</th>
-        <th scope="col">사리</th>
-        <th scope="col">주문자명</th>
-        <th scope="col">주소</th>
-        <th scope="col">전화번호</th>
-    </tr>
-    </thead>
-    <tbody id="orders" >
-    </tbody>
-
-</table>
 </body>
 
 </html>
