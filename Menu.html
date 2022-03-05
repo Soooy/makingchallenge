@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./Menu.css" />
+  </head>
+  <body>
+    <img id="logo" src="./img/로고.png" />
+
+    <div id="menu-bar">
+      <!-- 버튼 -->
+      <div class="tab">
+        <button class="menu-btn active" onclick="openTab(event, 'tab1')">
+          샌드위치
+        </button>
+        <button class="menu-btn" onclick="openTab(event, 'tab2')">빵</button>
+        <button class="menu-btn" onclick="openTab(event, 'tab3')">치즈</button>
+        <button class="menu-btn" onclick="openTab(event, 'tab4')">소스</button>
+      </div>
+
+      <!-- 리스트 -->
+      <!-- 샌드위치 -->
+      <div id="tab1" class="tabcontent" style="display: block">
+        <div class="tab-img">
+          <img
+            class="sandwich-img"
+            src="./img/에그마요.png"
+            alt="에그마요"
+          />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+        <div class="img-tab">
+          <img src="./img/에그마요.png" alt="에그마요" />
+          <p>에그마요</p>
+        </div>
+      </div>
+
+      <!-- 빵 -->
+      <div id="tab2" class="tabcontent" style="display: none">탭2 내용</div>
+      <!-- 치즈 -->
+      <div id="tab3" class="tabcontent" style="display: none">탭2 내용</div>
+      <!-- 소스 -->
+      <div id="tab4" class="tabcontent" style="display: none">탭2 내용</div>
+    </div>
+    <script src="./Menu.js"></script>
+  </body>
+</html>
